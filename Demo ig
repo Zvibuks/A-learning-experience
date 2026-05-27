@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<head>
+<title>A learning experience</title>
+<style>
+.colourA {
+    background-color: lightgreen;
+    color:  black;
+}
+.colourB {
+    background-color: lightyellow;
+    color: black;
+}
+.colourC {
+    background-color: lightgrey;
+    color: black;
+}
+</style>
+</head>
+<body>
+<h1>A learning experience</h1>
+<h3>This learning experience is called 'A Button'</h3>
+<p>Learn with me about buttons!</p>
+<p>First, let's create a simple button:</p>
+<button>Click me!</button>
+<p>Did you know that you can disable a button?</p>
+<button disabled>You can't click me!</button>
+<p>What happens when we click a special button, like this one:</p>
+<button onclick="alert('You clicked the special button!')">The special button</button>
+<p>Did you know there are different types of buttons? Well here are some of the more popular button types:</p>
+<button type="button">Just a regular button</button>
+<button type="submit">A submit button</button>
+<button type="reset">A reset button</button>
+<p>Right now the submit and reset buttons are not doing anything. That is because the submit button sends the form data to a server and the reset button clears the form. Since we do not have a form here, they are not doing anything. But if we had a form, they would be very useful!</p>
+<p>Lets create a form now!</p>
+<form>
+    <label for="name">Name:</label>
+<input type="text" id="name" name="name"><br><br>
+
+<button type="submit">Submit</button>
+<button type="reset">Reset</button>
+</form>
+<p>Now try writing your name and then clicking the submit or reset button and see what happens!</p>
+<p>If u submitted your name, we could use your name to personalize your experience on our website. For example, we could display a message like "Hello, [Your Name]!". Wait, we can do that right now! Just click the submit button and see what happens!</p>
+<script>
+    document.querySelector('form').addEventListener('submit', function(event) {
+        event.preventDefault(); 
+        const name = document.getElementById('name').value;
+        alert('Hello, ' + name + '!');
+    })
+</script>
+<button class="colourA colour-btn">A button with colour</button>
+<button class="colourB colour-btn">A button with different colour</button>
+<button class="colourC colour-btn">A button with another colour</button>
+
+<script>
+const colours = ['colourA', 'colourB', 'colourC'];
+document.querySelectorAll('.colour-btn').forEach(button => {
+    button.addEventListener('click', function() {
+        const current = colours.find(c => this.classList.contains(c));
+        const nextIndex = (colours.indexOf(current) + 1) % colours.length;
+        this.classList.remove(current);
+        this.classList.add(colours[nextIndex]);
+    })
+})
+</script>
+
+<button id="randomColour">A button with a random predefined colour</button>
+<script>
+ const coloursRandom = ['lightblue', 'lightpink'];
+ const randomButton = document.getElementById('randomColour');
+ function getRandomTime() {
+    return Math.floor(Math.random() * 2000) + 1000;
+ }
+function changeColour() {
+    const randomColour = coloursRandom[Math.floor(Math.random() * coloursRandom.length)];
+    randomButton.style.backgroundColor = randomColour;
+    setTimeout(changeColour, getRandomTime());
+}
+setTimeout(changeColour, getRandomTime());
+</script>
+<p>How about we combine both the random colour button and the colour changing button?</p>
+<button id="combinedColour" class="colourA combinedBtn">This is a crazy combined button!</button>
+<script>
+    const combinedCol = ['colourA', 'colourB', 'colourC'];
+document.querySelectorAll('.combinedBtn').forEach(button => {
+    button.addEventListener('click', function() {
+        const current = combinedCol.find(c => this.classList.contains(c));
+        const nextIndex = (combinedCol.indexOf(current) + 1) % combinedCol.length;
+        this.classList.remove(current);
+        this.classList.add(combinedCol[nextIndex]);
+        this.style.backgroundColor = '';
+    });
+});
+
+const combinedColours = ['lightblue', 'lightpink'];
+const combinedButton = document.getElementById('combinedColour');
+function getRandomTimeC() {
+    return Math.floor(Math.random() * 2000) + 1000;
+}
+function changeRandomColour() {
+    const combinedRandomColour = combinedColours[Math.floor(Math.random() * combinedColours.length)];
+    combinedButton.style.backgroundColor = combinedRandomColour;
+    setTimeout(changeRandomColour, getRandomTimeC());
+}
+setTimeout(changeRandomColour, getRandomTimeC());
+</script>
+<p>How about we make a simple point system? Clicking a button will earn or deduct points.</p>
+<p>Points: <span id="points">0</span></p>
+<button id="earnPoint">Earn a point</button>
+<button id="deductPoint">Deduct a point</button>
+<script>
+let points = 0;
+document.getElementById('earnPoint').addEventListener('click', function() {
+    points++;
+    document.getElementById('points').textContent = points;
+});
+document.getElementById('deductPoint').addEventListener('click', function() {
+    points--;
+    document.getElementById('points').textContent = points;
+
+});
+</script>
+<p>This is great and all, but what if we made it so that for button with a green colour we gain a point, but for red we deduct a point?</p>
+<p>Points: <span id="testPoints">0</span></p>
+<button id="pointBtn">Click me!</button>
+<script>
+let testPoints = 0;
+const testColours = ['green', 'red'];
+const testButton = document.getElementById('pointBtn');
+function getRandomTestTime() {
+    return Math.floor(Math.random() * 3000) + 2000;
+}
+function changeTestColour() {
+    const randomTestColour = testColours[Math.floor(Math.random() * testColours.length)];
+    testButton.style.backgroundColor = randomTestColour;
+    setTimeout(function() {
+        testButton.style.backgroundColor = '';
+    }, getRandomTestTime() - 1500);
+    setTimeout(changeTestColour, getRandomTestTime());
+}
+
+setTimeout(changeTestColour, getRandomTestTime());
+
+document.querySelectorAll('#pointBtn').forEach(button => {
+    button.addEventListener('click', function() {
+        if (testButton.style.backgroundColor === 'green') {
+            testPoints++;
+            testButton.style.backgroundColor = '';
+        } 
+        else if (testButton.style.backgroundColor === 'red') {
+            testPoints--;
+            testButton.style.backgroundColor = '';
+            if (testPoints < 0) {
+                testPoints = 0;
+            }
+        }
+        document.getElementById('testPoints').textContent = testPoints;
+    });
+});
+</script>
+<p>This simple game is a bit boring, so we could implement a high score system.</p>
+<p>High Score: <span id="highScore">0</span></p>
+<script>
+ let highScore = localStorage.getItem('highScore') || 0;
+ document.getElementById('highScore').textContent = highScore;
+ document.querySelectorAll('#pointBtn').forEach(button => {
+    button.addEventListener('click', function() {
+        if (testPoints > highScore) {
+            highScore = testPoints;
+            localStorage.setItem('highScore', highScore);
+            document.getElementById('highScore').textContent = highScore;
+        }
+    });
+ });
+</script>
+<button id="resetBtn">Reset high score</button>
+<script>
+    document.getElementById('resetBtn').addEventListener('click', function() {
+        highScore = 0;
+        localStorage.setItem('highScore', highScore);
+        document.getElementById('highScore').textContent = highScore;
+    });
+</script>
+</body>
